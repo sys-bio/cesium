@@ -10,7 +10,8 @@ The former website can be found at https://cesiumdb.herokuapp.com/
 
 
 ### Credits
-Original Repository is here: https://github.com/WesleyyL/cesium 
+Original Repository is here: https://github.com/WesleyyL/cesium
+
 Project was supervised by Dr. Herbert Sauro at the University of Washington, Bioengineering Department.
 
 Our paper can be found here: https://doi.org/10.1016/j.biosystems.2023.104836
