@@ -4,9 +4,9 @@ Cesium a public database containing approximately 1800 3-species, 450 6-species,
 
 
 ## Website
-Current website, under construction is at: ######
+Current website, under construction is at: https://sys-bio.github.io/cesium/
 
-The former website can be found at https://cesiumdb.herokuapp.com/
+The **former website** can be found at https://cesiumdb.herokuapp.com/
 
 
 ### Credits
