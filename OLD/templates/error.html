@@ -1,0 +1,24 @@
+<!-- Info -->
+{% extends "base.html" %}
+{% set active_page = "" %}
+{% block title %}Cesium Database Error{% endblock %}
+
+{% block content %}
+
+
+<div class="my-4 py-2 container" align="center">
+	<!-- <h1 align="center">Error</h1> -->
+	<h1 class="text-center">Error</h1>
+
+	<div class="py-4 py-2 container d-flex justify-content-center">
+		<div class="alert alert-danger" role="alert">
+			{{error_msg}}
+		</div>
+	</div>
+
+	<div>
+		<a href="/" target="_self"><button class='btn btn-secondary my-2 mx-2'>Return Home</button></a>
+	</div>
+</div>
+
+{% endblock %}
