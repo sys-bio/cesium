@@ -1,0 +1,26 @@
+Note: a Python package is under construction and should eventually have the syntax listed below. When python package is finished we will need to add the following to the README.md:
+
+## (Unfinished) Python package usage:
+- To import library after pip install (`pip install oscillatorlookups`):
+
+  `import oscillatorlookups`
+- To get model database metadata in JSON format:
+
+  `myList = oscillatorlookups.lookups.get_metadata()` 
+  
+  Note: JSON database is very big >20 MB.
+- To download all of the oscillatory models with 5 species and 5 reactions:
+
+  `oscillatorlookups.lookup(myList, "osc55/", 5, 5))` 
+  
+  Models are placed in the ../'osc55' dir, This lookup and download may take awhile (> 5 sec depending on the number of models found.
+- To get the number of models with ceratin attributes:
+  `oscillatorlookups.get_number_of_models_with_attrib(myList, num_species=5, num_reactions=5)`
+  
+  This finds the number of models with species = 5 and number of reactions = 5. Currently only attributes 'num_species' and 'num_reactions' are supported.
+- Only specify one attribute:
+  `oscillatorlookups.get_number_of_models_with_attrib(myList, num_species=4)` 
+- Grab a summary of the database:
+  `oscillatorlookups.get_summary(myList)`
+
+  Returns a list of strings, each entry gives the number of models with a specific number of reactions and species.
