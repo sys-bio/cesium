@@ -1,6 +1,6 @@
 # Cesium
 
-Cesium a public database containing approximately 1800 3-species, 450 6-species, and 750 10-species oscillating networks created using a customized evolution algorithm, an optimization process based on the iterative improvement of candidate models. The source code for the algorithm that generated these evolved models can be found here: https://github.com/sys-bio/evolution. All models are written in Antimony, a chemical network modeling language.
+Cesium a public database containing approximately 2000 oscillating networks with between 3 and nine species created using a customized evolution algorithm, an optimization process based on the iterative improvement of candidate models. The source code for the algorithm that generated these evolved models can be found here: https://github.com/sys-bio/evolution. Also within this database are approximately 8000 randomly generated models with between 1 and 10 species. All models are written in Antimony, a chemical network modeling language.
 
 More information about Antimony:
 - Antimony reference: https://tellurium.readthedocs.io/en/latest/antimony.html
