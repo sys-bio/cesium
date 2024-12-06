@@ -8,7 +8,7 @@ Our paper on chemical network oscillator generation: an be found here:
     Lillian T. Tatka, Wesley Luk, Timothy C. Elston, Joseph L. Hellerstein, Herbert M. Sauro, Cesium: A public database of evolved oscillatory reaction networks, Biosystems, Vol 224, 2023, 104836, ISSN 0303-2647, https://doi.org/10.1016/j.biosystems.2023.104836.
 
 ## Website
-Current website, under construction is at: https://sys-bio.github.io/cesium/
+Current website: https://sys-bio.github.io/cesium/
 
 The **former website** can be found at https://cesiumdb.herokuapp.com/
 
