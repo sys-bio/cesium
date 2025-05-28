@@ -1,0 +1,95 @@
+/* (PART A) STACK RANGE SLIDERS */
+.drange {
+    position: relative;
+}
+.drange input[type="range"] {
+    position: absolute;
+    width: 100%;
+    pointer-events: none;
+}
+.drange input[type="range"]::-webkit-slider-thumb {
+    pointer-events: all;
+}
+.drange input[type="range"]::-moz-range-thumb {
+    pointer-events: all;
+}
+
+/* (PART B) WRAPPER : CENTER SLIDERS & DIMENSIONS */
+.drange {
+    display: flex;
+    align-items: center;
+    max-width: 400px;
+    height: 50px;
+    margin: 10px 10px 20px 10px;
+}
+
+/* (PART C) HIDE DEFAULT SLIDER STYLES */
+.drange input[type="range"] {
+    appearance: none;
+    background: none;
+}
+.drange input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+}
+.drange input[type="range"]:focus {
+    outline: none;
+}
+
+/* (PART D) CUSTOM THUMB */
+.drange input[type="range"]::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+    border: 0;
+    border-radius: 50%;
+    background: #0657fa;
+    cursor: pointer;
+}
+.drange input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border: 0;
+    border-radius: 50%;
+    background: #0657fa;
+    cursor: pointer;
+}
+
+/* (PART E) CUSTOM TRACK : FIRST SLIDER ONLY */
+.drange input[type="range"]:first-child::-webkit-slider-runnable-track {
+    background: #9f9797;
+}
+.drange input[type="range"]:first-child::-moz-range-track {
+    background: #9f9797;
+}
+
+/* (PART F) TO "RESIZE" TRACK */
+/* (20px - 6px) / 2 = 7 px */
+.drange input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px;
+}
+.drange input[type="range"]::-moz-range-track {
+    height: 6px;
+}
+.drange input[type="range"]::-webkit-slider-thumb {
+    margin-top: -7px;
+}
+
+/* (PART G) MIN/MAX VALUE */
+.drange .dmin,
+.drange .dmax {
+    position: absolute;
+    bottom: -5px;
+    font-size: 14px;
+    font-weight: 700;
+}
+.drange .dmin {
+    left: 0;
+}
+.drange .dmax {
+    right: 0;
+}
+
+/* (PART X) COSMETICS - NOT REALLY IMPORTANT */
+* {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}

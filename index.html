@@ -8,27 +8,34 @@
             crossorigin="anonymous"
         />
 
+        <script src="https://unpkg.com/dual-range-bar@1.1.0/dist/dual-range-bar.min.js"></script>
+
         <style>
             table {
-            border-collapse: collapse;
-            overflow-y:scroll;
-            height:500px;
-            display:block;
-        }
+                border-collapse: collapse;
+                overflow-y: scroll;
+                height: 500px;
+                display: block;
+            }
 
-        th {
-            background-color: #0b5ed7;
-            Color: white;
+            th {
+                background-color: #0b5ed7;
+                color: white;
+            }
 
-        }
-
-        th,
-        td {
-            width: 150px;
-            text-align: center;
-            border: 1px solid gray;
-            padding: 5px
-        }
+            th,
+            td {
+                width: 150px;
+                text-align: center;
+                border: 1px solid gray;
+                padding: 5px;
+            }
+            form {
+                justify-items: center;
+                max-width: fit-content;
+                margin-left: auto;
+                margin-right: auto;
+            }
         </style>
         <script src="sorttable.js"></script>
         <meta charset="utf-8" />
@@ -50,6 +57,7 @@
         <meta name="theme-color" content="#fafafa" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.0/jszip.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+        <link href="dual.css" rel="stylesheet" type="text/css" />
         <script>
             let paths = [];
             let data;
@@ -59,11 +67,15 @@
             let maxS = 0;
             let types = [];
             let combos = {};
+
+            let lowR = 0;
+            let highR = 0;
+
+            let lowS = 0;
+            let highS = 0;
+
             document.addEventListener("DOMContentLoaded", function () {
                 const form = document.querySelector("#form");
-                const numReactionsInput =
-                    document.querySelector("#numReactions");
-                const numSpeciesInput = document.querySelector("#numSpecies");
                 const modelTypeInput = document.querySelector("#mtype");
                 const modelsFound = document.querySelector("#found");
 
@@ -72,10 +84,7 @@
                     lookupModels();
                 });
 
-                numReactionsInput.addEventListener("input", lookupModels);
-                numSpeciesInput.addEventListener("input", lookupModels);
                 modelTypeInput.addEventListener("input", lookupModels);
-
 
                 load_metadata()
                     .then((mtd) => {
@@ -98,80 +107,180 @@
                                 minR = data[i].numReactions;
                             }
                         }
+                        lowR = minR;
+                        highR = maxR;
+                        lowS = minS;
+                        highS = maxS;
 
                         document.querySelector("#nspl").textContent =
                             `Number of Species (${minS.toString()}-${maxS.toString()}):`;
-                        document.querySelector("#nrpl").textContent =
-                            `Number of Reactions (${minR.toString()}-${maxR.toString()}):`;
+                        // (PART A) LOOP THROUGH DUAL RANGE SLIDERS
+                        document
+                            .querySelectorAll("#rangeSpecies")
+                            .forEach((drange) => {
+                                // (PART B) GET RANGE PICKERS & VALUE DISPLAY
+                                let ranges =
+                                        drange.querySelectorAll(
+                                            "input[type=range]",
+                                        ),
+                                    dmin = drange.querySelector(".dmin"),
+                                    dmax = drange.querySelector(".dmax");
 
-                        let typesStr = "<option selected=\"\">Please select</option>";
+                                document.getElementById("speciesMin").min =
+                                    minS;
+                                document.getElementById("speciesMin").max =
+                                    maxS;
+                                document.getElementById("speciesMax").min =
+                                    minS;
+                                document.getElementById("speciesMax").max =
+                                    maxS;
+
+                                document.getElementById("speciesMin").value =
+                                    minS;
+                                document.getElementById("speciesMax").value =
+                                    maxS;
+
+                                // (PART C) MIN CANNOT BE MORE THAN MAX
+                                ranges[0].addEventListener("input", (e) => {
+                                    if (+ranges[0].value >= +ranges[1].value) {
+                                        ranges[0].value = +ranges[1].value - 1;
+                                    }
+                                    dmin.innerHTML = ranges[0].value;
+                                    lowS = parseInt(ranges[0].value);
+                                    lookupModels();
+                                });
+
+                                // (PART D) MAX CANNOT BE LESS THAN MIN
+                                ranges[1].addEventListener("input", (e) => {
+                                    if (+ranges[1].value <= +ranges[0].value) {
+                                        ranges[1].value = +ranges[0].value + 1;
+                                    }
+                                    dmax.innerHTML = ranges[1].value;
+                                    highS = parseInt(ranges[1].value);
+                                    lookupModels();
+                                });
+
+                                // (PART E) INIT VALUE DISPLAY
+                                dmin.innerHTML = minS;
+                                dmax.innerHTML = maxS;
+                            });
+                        // (PART A) LOOP THROUGH DUAL RANGE SLIDERS
+                        document
+                            .querySelectorAll("#rangeReactions")
+                            .forEach((drange) => {
+                                // (PART B) GET RANGE PICKERS & VALUE DISPLAY
+                                let ranges =
+                                        drange.querySelectorAll(
+                                            "input[type=range]",
+                                        ),
+                                    dmin = drange.querySelector(".dmin"),
+                                    dmax = drange.querySelector(".dmax");
+
+                                document.getElementById("reactionsMin").min =
+                                    minR;
+                                document.getElementById("reactionsMin").max =
+                                    maxR;
+
+                                document.getElementById("reactionsMax").min =
+                                    minR;
+                                document.getElementById("reactionsMax").max =
+                                    maxR;
+
+                                document.getElementById("reactionsMin").value =
+                                    minR;
+                                document.getElementById("reactionsMax").value =
+                                    maxR;
+
+                                // (PART C) MIN CANNOT BE MORE THAN MAX
+                                ranges[0].addEventListener("input", (e) => {
+                                    if (+ranges[0].value >= +ranges[1].value) {
+                                        ranges[0].value = +ranges[1].value - 1;
+                                    }
+                                    dmin.innerHTML = ranges[0].value;
+                                    lowR = parseInt(ranges[0].value);
+                                    lookupModels();
+                                });
+
+                                // (PART D) MAX CANNOT BE LESS THAN MIN
+                                ranges[1].addEventListener("input", (e) => {
+                                    if (+ranges[1].value <= +ranges[0].value) {
+                                        ranges[1].value = +ranges[0].value + 1;
+                                    }
+                                    dmax.innerHTML = ranges[1].value;
+                                    highR = parseInt(ranges[1].value);
+                                    lookupModels();
+                                });
+
+                                // (PART E) INIT VALUE DISPLAY
+                                dmin.innerHTML = minR;
+                                dmax.innerHTML = maxR;
+                            });
+
+                        let typesStr =
+                            '<option selected="oscillator">oscillator</option>';
                         types.forEach((typesStrKey) => {
                             typesStr += `<option value=\"${typesStrKey}\">${typesStrKey}</option>`;
                         });
-                        document.getElementById("mtype").innerHTML = typesStr
+                        document.getElementById("mtype").innerHTML = typesStr;
+                        lookupModels();
                     })
                     .catch((error) => {
                         console.error("Error:", error); // Logs any error that occurred during the fetch
                     });
 
-
-                function setInputs(ns, nr, mt) {
-                    numSpeciesInput.value = ns;
-                    numReactionsInput.value = nr;
-                    modelTypeInput.value = mt;
-                }
-
-                function updateTable(){
-                    combos = {}
-                    for (let i = 0; i < data.length; i++){
-                        if(data[i].modelType === modelTypeInput.value) {
-                                let key = `<tr
-                            ><td>${data[i].numSpecies}</td><td>${data[i].numReactions}</td> <td>${data[i].modelType}</td>`
-                                if (combos[key] == null) {
-                                    combos[key] = 1;
-                                } else {
-                                    combos[key] += 1;
-                                }
+                function updateTable() {
+                    combos = {};
+                    for (let i = 0; i < data.length; i++) {
+                        if (
+                            data[i].modelType === modelTypeInput.value &&
+                            data[i].numReactions <= highR &&
+                            data[i].numReactions >= lowR &&
+                            data[i].numSpecies <= highS &&
+                            data[i].numSpecies >= lowS
+                        ) {
+                            let key = `<tr
+                            ><td>${data[i].numSpecies}</td><td>${data[i].numReactions}</td> <td>${data[i].modelType}</td>`;
+                            if (combos[key] == null) {
+                                combos[key] = 1;
+                            } else {
+                                combos[key] += 1;
+                            }
                         }
                     }
                     let tableBody = "";
-                        for (let i = 0; i < Object.keys(combos).length; i++) {
-                            tableBody += Object.keys(combos)[i] + `<td>${combos[Object.keys(combos)[i]]}</td></tr>`
-                        }
-                        document.getElementById("table").innerHTML = "" +
-                            "<table id=\"sortable\">\n" +
-                            "            <thead>\n" +
-                            "                  <tr><th>Number of Species</th><th>Number of Reactions</th> <th>Model Type</th> <th>Number of Models Found</th></tr>\n" +
-                            "                </thead>\n" +
-                            "                <tbody>\n" + tableBody +
-                            "                </tbody>\n" +
-                            "                </table>"
-                        sorttable.makeSortable(document.getElementById("sortable"));
-
+                    for (let i = 0; i < Object.keys(combos).length; i++) {
+                        tableBody +=
+                            Object.keys(combos)[i] +
+                            `<td>${combos[Object.keys(combos)[i]]}</td></tr>`;
                     }
-
+                    document.getElementById("table").innerHTML =
+                        "" +
+                        '<table id="sortable">\n' +
+                        "            <thead>\n" +
+                        "                  <tr><th>Number of Species</th><th>Number of Reactions</th> <th>Model Type</th> <th>Number of Models Found</th></tr>\n" +
+                        "                </thead>\n" +
+                        "                <tbody>\n" +
+                        tableBody +
+                        "                </tbody>\n" +
+                        "                </table>";
+                    sorttable.makeSortable(document.getElementById("sortable"));
+                }
 
                 function lookupModels() {
-                    const species_num = numSpeciesInput.value
-                        ? parseInt(numSpeciesInput.value)
-                        : null;
-                    const reaction_num = numReactionsInput.value
-                        ? parseInt(numReactionsInput.value)
-                        : null;
                     const model_type =
                         modelTypeInput.value !== "Please select"
                             ? modelTypeInput.value
                             : null;
 
                     document.getElementById("spectext").innerHTML = "";
-                    updateTable()
+                    updateTable();
                     paths = data
                         .filter(
                             (item) =>
-                                (species_num === null ||
-                                    item.numSpecies === species_num) &&
-                                (reaction_num === null ||
-                                    item.numReactions === reaction_num) &&
+                                item.numSpecies <= highS &&
+                                item.numSpecies >= lowS &&
+                                item.numReactions <= highR &&
+                                item.numReactions >= lowR &&
                                 (model_type === null ||
                                     item.modelType === model_type),
                         )
@@ -244,14 +353,47 @@
             <form id="form">
                 <label id="nspl" for="numSpecies">Number of Species:</label
                 ><br />
-                <input type="number" id="numSpecies" name="nspecies" /><br />
+                <div class="drange" id="rangeSpecies">
+                    <input
+                        type="range"
+                        min="1"
+                        max="36"
+                        value="1"
+                        id="speciesMin"
+                    />
+                    <input
+                        type="range"
+                        min="1"
+                        max="36"
+                        value="36"
+                        id="speciesMax"
+                    />
+                    <div class="dmin">0</div>
+                    <div class="dmax">0</div>
+                </div>
+                <br />
+
                 <label id="nrpl" for="numReactions">Number of Reactions:</label
                 ><br />
-                <input
-                    type="number"
-                    id="numReactions"
-                    name="nreactions"
-                /><br />
+
+                <div class="drange" id="rangeReactions">
+                    <input
+                        type="range"
+                        min="1"
+                        max="36"
+                        value="1"
+                        id="reactionsMin"
+                    />
+                    <input
+                        type="range"
+                        min="1"
+                        max="36"
+                        value="36"
+                        id="reactionsMax"
+                    />
+                    <div class="dmin">0</div>
+                    <div class="dmax">0</div>
+                </div>
 
                 <div class="row mb-4 justify-content-center">
                     <div class="col-auto">
@@ -266,8 +408,7 @@
                             autocomplete="off"
                             placeholder="Please select"
                             required=""
-                        >
-                        </select>
+                        ></select>
                     </div>
                 </div>
             </form>
@@ -276,15 +417,16 @@
             <button class="btn btn-primary" onclick="downloadFiles()">
                 Download found models
             </button>
+
             <br />
             <br />
             <p id="spectext" class="text-primary"></p>
-            <div id = "table" class="full-width" style="justify-content: center; display: flex">
-
-            </div>
-            <br>
-
+            <div
+                id="table"
+                class="full-width"
+                style="justify-content: center; display: flex"
+            ></div>
+            <br />
         </div>
-
     </body>
 </html>
