@@ -148,6 +148,11 @@
                                     dmin.innerHTML = ranges[0].value;
                                     lowS = parseInt(ranges[0].value);
                                     lookupModels();
+
+                                    sorttable.innerSortFunction.apply(
+                                        document.getElementById("speciesNumH"),
+                                        [],
+                                    );
                                 });
 
                                 // (PART D) MAX CANNOT BE LESS THAN MIN
@@ -158,6 +163,17 @@
                                     dmax.innerHTML = ranges[1].value;
                                     highS = parseInt(ranges[1].value);
                                     lookupModels();
+
+                                    sorttable.innerSortFunction.apply(
+                                        document.getElementById("speciesNumH"),
+                                        [],
+                                    );
+
+                                    sorttable.reverse(
+                                        document.getElementsByTagName(
+                                            "tbody",
+                                        )[0],
+                                    );
                                 });
 
                                 // (PART E) INIT VALUE DISPLAY
@@ -199,6 +215,10 @@
                                     dmin.innerHTML = ranges[0].value;
                                     lowR = parseInt(ranges[0].value);
                                     lookupModels();
+                                    sorttable.innerSortFunction.apply(
+                                        document.getElementById("reactionNumH"),
+                                        [],
+                                    );
                                 });
 
                                 // (PART D) MAX CANNOT BE LESS THAN MIN
@@ -209,6 +229,16 @@
                                     dmax.innerHTML = ranges[1].value;
                                     highR = parseInt(ranges[1].value);
                                     lookupModels();
+                                    sorttable.innerSortFunction.apply(
+                                        document.getElementById("reactionNumH"),
+                                        [],
+                                    );
+
+                                    sorttable.reverse(
+                                        document.getElementsByTagName(
+                                            "tbody",
+                                        )[0],
+                                    );
                                 });
 
                                 // (PART E) INIT VALUE DISPLAY
@@ -257,7 +287,7 @@
                         "" +
                         '<table id="sortable">\n' +
                         "            <thead>\n" +
-                        "                  <tr><th>Number of Species</th><th>Number of Reactions</th> <th>Model Type</th> <th>Number of Models Found</th></tr>\n" +
+                        "                  <tr><th id = 'speciesNumH' >Number of Species</th><th id = 'reactionNumH'>Number of Reactions</th> <th>Model Type</th> <th>Number of Models Found</th></tr>\n" +
                         "                </thead>\n" +
                         "                <tbody>\n" +
                         tableBody +
