@@ -361,7 +361,7 @@
 
             function load_metadata() {
                 return fetch(
-                    "https://raw.githubusercontent.com/sys-bio/cesium/master/model_db/cesium_metadata.json",
+                    "https://raw.githubusercontent.com/sys-bio/cesium/master/metadata.json",
                 ).then((response) => {
                     if (!response.ok) {
                         throw new Error(
