@@ -1,4 +1,5 @@
-#these would happen as github actions
+
+import datetime
 import json
 import os
 import sys
@@ -18,9 +19,9 @@ def delete(path):
                 break
         with open("metadata.json", "w") as f:
             json.dump(data, f)
-        with open("checksum", "a") as ch:
-            ch.write("1")
-        print("added model")
+        with open("checksum", "w") as ch:
+            ch.write(datetime.datetime.now().__str__())
+        print("deleted model")
         return
     except Exception as e:
         print(e)
