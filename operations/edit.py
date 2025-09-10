@@ -1,4 +1,5 @@
-#these would happen as github actions
+
+import datetime
 import json
 import os
 import sys
@@ -7,7 +8,7 @@ import aiofiles
 import tellurium as te
 
 def process_model(file_path, filename, data):
-    async with open(os.path.join(file_path, filename), "r") as file:
+     with open(os.path.join(file_path, filename), "r") as file:
         model_string = file.read()
         r = te.loada(model_string)
         numSpecies = r.getNumFloatingSpecies()
@@ -39,12 +40,12 @@ def edit(filepath_to_change, replacement_ant_string):
             json.dump(data, f)
         with open(filepath_to_change, "w") as fp:
             fp.write(replacement_ant_string)
-        with open("checksum", "a") as ch:
-            ch.write("1")
-        print("added model")
+        with open("checksum", "w") as ch:
+            ch.write(datetime.datetime.now().__str__())
+        print("edited model")
         return
     except:
-        print("failed to add placeholder")
+        print("failed to edit model")
 
 edit(sys.argv[1], sys.argv[2])
 
