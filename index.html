@@ -207,7 +207,7 @@
                                 document.getElementById("reactionsMax").value =
                                     maxR;
 
-                                // (PART C) MIN CANNOT BE MORE THAN MAX
+                                // (PART C) MIN CANNOT BE GREATER THAN MAX
                                 ranges[0].addEventListener("input", (e) => {
                                     if (+ranges[0].value >= +ranges[1].value) {
                                         ranges[0].value = +ranges[1].value - 1;
